@@ -1,9 +1,14 @@
 package com.example.rms.entities;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Menu {
@@ -15,5 +20,6 @@ public class Menu {
     private double price;
     private String category;
     
-    
+    @ManyToMany(mappedBy = "menuItems")
+    private Set<Order> order;
 }
