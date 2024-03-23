@@ -20,9 +20,8 @@ public class Table {
     private boolean available;
 
     @OneToOne
-    @JoinTable(name = "user_table", joinColumns = @JoinColumn(name = "table_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User user;
 
-    @OneToMany(mappedBy = "table")
+    @OneToMany(mappedBy = "table", targetEntity = Order.class)
     private Set<Order> orders;
 }
