@@ -22,7 +22,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private boolean status;
+    private String status;
     // new, preparing, ready, delivered, cancelled
 
     @ManyToOne
