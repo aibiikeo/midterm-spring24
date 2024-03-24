@@ -1,17 +1,8 @@
 package com.example.rms.entities;
 
 import java.util.Set;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity(name = "Tables")
 @Data
@@ -23,11 +14,12 @@ public class Table {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String seatNum;
-    private boolean available;
+    @Builder.Default
+    private boolean available = true;
 
-    @OneToOne
-    private User user;
+    @OneToOne(mappedBy = "table")
+    private Customer customer;
 
-    @OneToMany(mappedBy = "table", targetEntity = Order.class)
+    @OneToMany(mappedBy = "table", targetEntity = Order.class, fetch = FetchType.EAGER)
     private Set<Order> orders;
 }

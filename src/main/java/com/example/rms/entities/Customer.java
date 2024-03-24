@@ -9,15 +9,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Menu {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;    
-    private String name;
-    private String description;
-    private String price;
-    private String category;
-    
-    @ManyToMany(mappedBy = "menuItems", fetch = FetchType.EAGER)
+    private Long id;
+    private String customer;
+
+    @OneToMany(mappedBy = "customer", targetEntity = Order.class)
     private Set<Order> orders;
+
+    @OneToOne
+    private Table table;
+    
 }

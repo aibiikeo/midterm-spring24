@@ -1,17 +1,8 @@
 package com.example.rms.entities;
 
 import java.util.Set;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity(name = "Orders")
 @Data
@@ -26,11 +17,11 @@ public class Order {
     // new, preparing, ready, delivered, cancelled
 
     @ManyToOne
-    private User user;
+    private Customer customer;
 
     @ManyToOne
     private Table table;
 
-    @OneToMany
+    @ManyToMany
     private Set<Menu> menuItems;
 }
