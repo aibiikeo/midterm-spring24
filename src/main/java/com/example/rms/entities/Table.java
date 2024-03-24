@@ -13,13 +13,13 @@ public class Table {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String seatNum;
+    private int seatNum;
     @Builder.Default
     private boolean available = true;
 
     @OneToOne(mappedBy = "table")
     private Customer customer;
 
-    @OneToMany(mappedBy = "table", targetEntity = Order.class, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "table", targetEntity = Order.class)
     private Set<Order> orders;
 }

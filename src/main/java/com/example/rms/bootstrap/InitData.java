@@ -18,6 +18,7 @@ import com.example.rms.entities.Customer;
 import com.example.rms.repositories.MenuRepository;
 import com.example.rms.repositories.OrderRepository;
 import com.example.rms.repositories.TableRepository;
+import jakarta.transaction.Transactional;
 import com.example.rms.repositories.CustomerRepository;
 
 @Component
@@ -40,6 +41,40 @@ public class InitData implements CommandLineRunner{
         generateTables(10);
         generateCustomers(8);
         generateOrders(6);
+
+        Menu menu1 = Menu.builder()
+                .name("Cake")
+                .description("cake")
+                .price("12.4$")
+                .category("Dessert")
+                .build(); 
+        Menu menu2 = Menu.builder()
+                .name("Water")
+                .description("water")
+                .price("0.5$")
+                .category("Drink")
+                .build();            
+        menuRepository.saveAll(List.of(menu1, menu2));
+        Set<Menu> menuItems = new HashSet<>();
+        menuItems.add(menu1);
+        menuItems.add(menu2);
+        Table table = Table.builder()
+                .seatNum(2)
+                .available(false)
+                .build();
+        tableRepository.save(table);
+        Customer customer = Customer.builder()
+                    .customer("Lena")
+                    .table(table)
+                    .build();    
+        customerRepository.save(customer);
+        Order order = Order.builder()
+                .status("new")
+                .customer(customer)
+                .table(table)
+                .menuItems(menuItems)
+                .build();    
+        orderRepository.save(order);
     }
     
     Random random = new Random();
@@ -61,7 +96,7 @@ public class InitData implements CommandLineRunner{
     public void generateTables(int numberOfTables) { 
         for (int i = 1; i <= numberOfTables; i++) {
             Table table = Table.builder()
-                    .seatNum("Table " + i)
+                    .seatNum(random.nextInt(6) + 1)
                     .build();
             tableRepository.save(table);
         }
@@ -83,15 +118,16 @@ public class InitData implements CommandLineRunner{
             Table randomTable = tables.get(tableIndex++);
             randomTable.setAvailable(false);
             tableRepository.save(randomTable);
-            Customer user = Customer.builder()
+            Customer customer = Customer.builder()
                     .customer("Customer" + i)
                     .table(randomTable)
                     .build();    
-            customerRepository.save(user);
+            customerRepository.save(customer);
         }
     }
 
-    public void generateOrders(int numberOfOrders) {  
+    @Transactional
+    public void generateOrders(int numberOfOrders) {
         String[] statuses = {"new", "preparing", "ready", "delivered", "cancelled"};
         List<Customer> customers = (List<Customer>) customerRepository.findAll();
         if (customers.isEmpty()) {
@@ -107,7 +143,7 @@ public class InitData implements CommandLineRunner{
         }
         Collections.shuffle(tables);
     
-        List<Menu> menuItems = (List<Menu>) menuRepository.findAll();
+        List<Object[]> menuItems = menuRepository.findAllMenuAttributes();
         if (menuItems.isEmpty()) {
             System.err.println("No menu items found in the database");
             return;
@@ -120,7 +156,14 @@ public class InitData implements CommandLineRunner{
             Set<Menu> randomMenuItems = new HashSet<>();
             int numberOfMenuItems = random.nextInt(3);
             for (int j = 0; j < numberOfMenuItems; j++) {
-                Menu randomMenuItem = menuItems.get(random.nextInt(menuItems.size()));
+                Object[] menuData = menuItems.get(random.nextInt(menuItems.size()));
+                Menu randomMenuItem = Menu.builder()
+                        .id((Long) menuData[0])
+                        .name((String) menuData[1])
+                        .description((String) menuData[2])
+                        .price((String) menuData[3])
+                        .category((String) menuData[4])
+                        .build();
                 randomMenuItems.add(randomMenuItem);
             }
             Order order = Order.builder()
@@ -128,7 +171,7 @@ public class InitData implements CommandLineRunner{
                     .customer(randomCustomer)
                     .table(randomTable)
                     .menuItems(randomMenuItems)
-                    .build();    
+                    .build();
             orderRepository.save(order);
         }
     }

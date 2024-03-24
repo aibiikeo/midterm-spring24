@@ -18,6 +18,6 @@ public class Menu {
     private String price;
     private String category;
     
-    @ManyToMany(mappedBy = "menuItems", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "menuItems")
     private Set<Order> orders;
 }
