@@ -19,6 +19,6 @@ public class Customer {
     private Set<Order> orders;
 
     @OneToOne
-    private Table table;
+    private Tables table;
     
 }

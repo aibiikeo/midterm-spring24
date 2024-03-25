@@ -20,7 +20,7 @@ public class Order {
     private Customer customer;
 
     @ManyToOne
-    private Table table;
+    private Tables table;
 
     @ManyToMany
     private Set<Menu> menuItems;

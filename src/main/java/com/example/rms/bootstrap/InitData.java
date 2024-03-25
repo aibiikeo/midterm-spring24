@@ -13,11 +13,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.example.rms.entities.Menu;
 import com.example.rms.entities.Order;
-import com.example.rms.entities.Table;
+import com.example.rms.entities.Tables;
 import com.example.rms.entities.Customer;
 import com.example.rms.repositories.MenuRepository;
 import com.example.rms.repositories.OrderRepository;
-import com.example.rms.repositories.TableRepository;
+import com.example.rms.repositories.TablesRepository;
 import jakarta.transaction.Transactional;
 import com.example.rms.repositories.CustomerRepository;
 
@@ -25,10 +25,10 @@ import com.example.rms.repositories.CustomerRepository;
 public class InitData implements CommandLineRunner{
     private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
-    private final TableRepository tableRepository;
+    private final TablesRepository tableRepository;
     private final CustomerRepository customerRepository;
 
-    public InitData(MenuRepository menuRepository, OrderRepository orderRepository, TableRepository tableRepository, CustomerRepository customerRepository) {
+    public InitData(MenuRepository menuRepository, OrderRepository orderRepository, TablesRepository tableRepository, CustomerRepository customerRepository) {
         this.menuRepository = menuRepository;
         this.orderRepository = orderRepository;
         this.tableRepository = tableRepository;
@@ -58,7 +58,7 @@ public class InitData implements CommandLineRunner{
         Set<Menu> menuItems = new HashSet<>();
         menuItems.add(menu1);
         menuItems.add(menu2);
-        Table table = Table.builder()
+        Tables table = Tables.builder()
                 .seatNum(2)
                 .available(false)
                 .build();
@@ -95,7 +95,7 @@ public class InitData implements CommandLineRunner{
 
     public void generateTables(int numberOfTables) { 
         for (int i = 1; i <= numberOfTables; i++) {
-            Table table = Table.builder()
+            Tables table = Tables.builder()
                     .seatNum(random.nextInt(6) + 1)
                     .build();
             tableRepository.save(table);
@@ -103,7 +103,7 @@ public class InitData implements CommandLineRunner{
     }
 
     public void generateCustomers(int numberOfCustomers) { 
-        List<Table> tables = (List<Table>) tableRepository.findAll();
+        List<Tables> tables = (List<Tables>) tableRepository.findAll();
         if (tables.isEmpty()) {
             System.err.println("No tables found in the database");
             return;
@@ -115,7 +115,7 @@ public class InitData implements CommandLineRunner{
                 System.err.println("No available tables found in the database");
                 return;
             }
-            Table randomTable = tables.get(tableIndex++);
+            Tables randomTable = tables.get(tableIndex++);
             randomTable.setAvailable(false);
             tableRepository.save(randomTable);
             Customer customer = Customer.builder()
@@ -136,7 +136,7 @@ public class InitData implements CommandLineRunner{
         }
         Collections.shuffle(customers);
     
-        List<Table> tables = (List<Table>) tableRepository.findByAvailableFalse();
+        List<Tables> tables = (List<Tables>) tableRepository.findByAvailableFalse();
         if (tables.isEmpty()) {
             System.err.println("No tables found in the database");
             return;
@@ -152,7 +152,7 @@ public class InitData implements CommandLineRunner{
 
         for (int i = 1; i <= numberOfOrders; i++) {
             Customer randomCustomer = customers.get(random.nextInt(customers.size()));
-            Table randomTable = tables.get(random.nextInt(tables.size()));
+            Tables randomTable = tables.get(random.nextInt(tables.size()));
             Set<Menu> randomMenuItems = new HashSet<>();
             int numberOfMenuItems = random.nextInt(3);
             for (int j = 0; j < numberOfMenuItems; j++) {

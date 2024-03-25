@@ -4,12 +4,12 @@ import java.util.Set;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "Tables")
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Table {
+public class Tables {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
