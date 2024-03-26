@@ -1,5 +1,6 @@
 package com.example.rms.dto;
 
+import java.util.Set;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,5 +16,5 @@ public class OrderDto {
     private String status;
     private CustomerDto customer;
     private TablesDto table;
-    private MenuDto menuItems;
+    private Set<MenuDto> menuItems;
 }
