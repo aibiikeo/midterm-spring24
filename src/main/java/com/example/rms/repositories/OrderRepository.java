@@ -7,5 +7,6 @@ import com.example.rms.entities.Order;
 
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long>{
+    List<Order> findAll();
     List<Order> findByStatus(String status);
 }

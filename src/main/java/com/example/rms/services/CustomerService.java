@@ -1,5 +1,8 @@
 package com.example.rms.services;
 
+import java.util.List;
+import com.example.rms.dto.CustomerDto;
+
 public interface CustomerService {
-    
+    List<CustomerDto> getAllCustomers();
 }
