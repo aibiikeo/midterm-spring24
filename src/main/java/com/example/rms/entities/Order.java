@@ -1,5 +1,6 @@
 package com.example.rms.entities;
 
+import java.util.Objects;
 import java.util.Set;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,4 +25,22 @@ public class Order {
 
     @ManyToMany
     private Set<Menu> menuItems;
+
+    @Override
+public int hashCode() {
+    return Objects.hash(id, status);
+}
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) {
+        return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+        return false;
+    }
+    Order order = (Order) obj;
+    return Objects.equals(id, order.id) && Objects.equals(status, order.status);
+}
+
 }
