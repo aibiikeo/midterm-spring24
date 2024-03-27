@@ -2,6 +2,7 @@ package com.example.rms.controllers;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.rms.dto.TablesDto;
@@ -17,5 +18,10 @@ public class TableController {
     @GetMapping  
     public List<TablesDto> getAllTables(){
         return tableService.getAllTables();
+    }
+    
+    @GetMapping("{id}")
+    public TablesDto getTableById(@PathVariable Long id) {
+        return tableService.getTableById(id).orElseThrow();
     }
 }

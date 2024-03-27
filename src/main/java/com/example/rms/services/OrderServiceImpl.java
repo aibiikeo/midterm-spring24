@@ -1,6 +1,8 @@
 package com.example.rms.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.OrderDto;
 import com.example.rms.mappers.OrderMapper;
@@ -22,4 +24,10 @@ public class OrderServiceImpl implements OrderService{
                 .toList();
     }
     
+    @Override
+    public Optional<OrderDto> getOrderById(Long id) {
+        return Optional.ofNullable(
+            orderMapper.orderToOrderDto(orderRepository.findById(id).orElse(null))
+        );
+    }
 }
