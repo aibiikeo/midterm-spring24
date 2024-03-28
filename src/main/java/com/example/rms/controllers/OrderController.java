@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +38,12 @@ public class OrderController {
         return ResponseEntity
                 .created(URI.create("/api/v1/customer/" + saved.getId()))
                 .body(saved);  
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<OrderDto> putOrder(@PathVariable Long id, @RequestBody OrderDto putOrder) {
+        putOrder.setId(id);
+        OrderDto updated = orderService.putOrder(putOrder);
+        return ResponseEntity.ok(updated);
     }
 }

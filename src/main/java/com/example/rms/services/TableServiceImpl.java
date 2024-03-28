@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.TablesDto;
+import com.example.rms.entities.Tables;
 import com.example.rms.mappers.TablesMapper;
 import com.example.rms.repositories.TablesRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,5 +34,15 @@ public class TableServiceImpl implements TableService{
     @Override
     public TablesDto saveTable(TablesDto newTable) {
         return tablesMapper.tableToTableDto(tablesRepository.save(tablesMapper.tableDtoToTable(newTable)));
+    }
+
+    @Override
+    public TablesDto putTable(TablesDto putTable) {
+        Tables existing = tablesRepository.findById(putTable.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Table not found"));
+        existing.setSeatNum(putTable.getSeatNum());
+        existing.setAvailable(putTable.isAvailable());
+        Tables updated = tablesRepository.save(existing);
+        return tablesMapper.tableToTableDto(updated);
     }
 }

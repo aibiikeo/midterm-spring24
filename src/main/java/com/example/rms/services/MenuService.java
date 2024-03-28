@@ -8,4 +8,5 @@ public interface MenuService {
     List<MenuDto> getAllMenuItems();
     Optional<MenuDto> getMenuItemById(Long id);
     MenuDto saveMenuItem(MenuDto newMenuItem);
+    MenuDto putMenuItem(MenuDto putMenuItem);
 }

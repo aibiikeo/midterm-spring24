@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.CustomerDto;
+import com.example.rms.entities.Customer;
 import com.example.rms.mappers.CustomerMapper;
 import com.example.rms.repositories.CustomerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,5 +34,15 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public CustomerDto saveCustomer(CustomerDto newCustomer) {
         return customerMapper.customerToCustomerDto(customerRepository.save(customerMapper.customerDtoToCustomer(newCustomer)));
+    }
+
+    @Override
+    public CustomerDto putCustomer(CustomerDto putCustomer) {
+        Customer existing = customerRepository.findById(putCustomer.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+        existing.setCustomer(putCustomer.getCustomer());
+
+        Customer updated = customerRepository.save(existing);
+        return customerMapper.customerToCustomerDto(updated);
     }
 }

@@ -2,11 +2,11 @@ package com.example.rms.controllers;
 
 import java.net.URI;
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +37,12 @@ public class MenuController {
         return ResponseEntity
                 .created(URI.create("/api/v1/customer/" + saved.getId()))
                 .body(saved);  
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<MenuDto> putMenuItem(@PathVariable Long id, @RequestBody MenuDto putMenuItem) {
+        putMenuItem.setId(id);
+        MenuDto updated = menuService.putMenuItem(putMenuItem);
+        return ResponseEntity.ok(updated);
     }
 }

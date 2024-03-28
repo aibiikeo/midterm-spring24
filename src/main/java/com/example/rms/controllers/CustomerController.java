@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.rms.dto.CustomerDto;
 import com.example.rms.services.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +39,12 @@ public class CustomerController {
         return ResponseEntity
                 .created(URI.create("/api/v1/customer/" + saved.getId()))
                 .body(saved);  
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<CustomerDto> putCustomer(@PathVariable Long id, @RequestBody CustomerDto putCustomer) {
+        putCustomer.setId(id);
+        CustomerDto updated = customerService.putCustomer(putCustomer);
+        return ResponseEntity.ok(updated);
     }
 }

@@ -8,4 +8,5 @@ public interface TableService {
     List<TablesDto> getAllTables();
     Optional<TablesDto> getTableById(Long id);
     TablesDto saveTable(TablesDto newTable);
+    TablesDto putTable(TablesDto putTable);
 }

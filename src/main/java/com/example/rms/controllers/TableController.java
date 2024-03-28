@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +37,12 @@ public class TableController {
         return ResponseEntity
                 .created(URI.create("/api/v1/customer/" + saved.getId()))
                 .body(saved);  
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<TablesDto> putTable(@PathVariable Long id, @RequestBody TablesDto putTable) {
+        putTable.setId(id);
+        TablesDto updated = tableService.putTable(putTable);
+        return ResponseEntity.ok(updated);
     }
 }

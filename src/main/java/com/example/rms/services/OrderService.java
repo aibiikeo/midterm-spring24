@@ -8,4 +8,5 @@ public interface OrderService {
     List<OrderDto> getAllOrders();
     Optional<OrderDto> getOrderById(Long id);
     OrderDto saveOrder(OrderDto newOrder);
+    OrderDto putOrder(OrderDto putOrder);
 }

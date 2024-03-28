@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.OrderDto;
+import com.example.rms.entities.Order;
 import com.example.rms.mappers.OrderMapper;
 import com.example.rms.repositories.OrderRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -34,5 +36,14 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public OrderDto saveOrder(OrderDto newOrder) {
         return orderMapper.orderToOrderDto(orderRepository.save(orderMapper.orderDtoToOrder(newOrder)));
+    }
+
+    @Override
+    public OrderDto putOrder(OrderDto putOrder) {
+        Order existing = orderRepository.findById(putOrder.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+        existing.setStatus(putOrder.getStatus());
+        Order updated = orderRepository.save(existing);
+        return orderMapper.orderToOrderDto(updated);
     }
 }
