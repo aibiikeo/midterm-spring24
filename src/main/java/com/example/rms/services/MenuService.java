@@ -7,4 +7,5 @@ import com.example.rms.dto.MenuDto;
 public interface MenuService {
     List<MenuDto> getAllMenuItems();
     Optional<MenuDto> getMenuItemById(Long id);
+    MenuDto saveMenuItem(MenuDto newMenuItem);
 }

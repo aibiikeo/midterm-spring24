@@ -7,4 +7,5 @@ import com.example.rms.dto.TablesDto;
 public interface TableService {
     List<TablesDto> getAllTables();
     Optional<TablesDto> getTableById(Long id);
+    TablesDto saveTable(TablesDto newTable);
 }

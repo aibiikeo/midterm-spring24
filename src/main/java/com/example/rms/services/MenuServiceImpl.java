@@ -29,4 +29,8 @@ public class MenuServiceImpl implements MenuService{
         );
     }
 
+    @Override
+    public MenuDto saveMenuItem(MenuDto newMenuItem) {
+        return menuMapper.menuToMenuDto(menuRepository.save(menuMapper.menuDtoToMenu(newMenuItem)));
+    }
 }

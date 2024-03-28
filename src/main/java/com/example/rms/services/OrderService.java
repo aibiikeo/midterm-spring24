@@ -7,4 +7,5 @@ import com.example.rms.dto.OrderDto;
 public interface OrderService {
     List<OrderDto> getAllOrders();
     Optional<OrderDto> getOrderById(Long id);
+    OrderDto saveOrder(OrderDto newOrder);
 }

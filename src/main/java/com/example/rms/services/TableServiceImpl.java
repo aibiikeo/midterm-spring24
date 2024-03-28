@@ -28,4 +28,9 @@ public class TableServiceImpl implements TableService{
             tablesMapper.tableToTableDto(tablesRepository.findById(id).orElse(null))
         );
     }
+
+    @Override
+    public TablesDto saveTable(TablesDto newTable) {
+        return tablesMapper.tableToTableDto(tablesRepository.save(tablesMapper.tableDtoToTable(newTable)));
+    }
 }

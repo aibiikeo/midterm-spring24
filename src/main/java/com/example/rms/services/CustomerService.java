@@ -7,4 +7,5 @@ import com.example.rms.dto.CustomerDto;
 public interface CustomerService {
     List<CustomerDto> getAllCustomers();
     Optional<CustomerDto> getCustomerById(Long id);
+    CustomerDto saveCustomer(CustomerDto newCustomer);
 }

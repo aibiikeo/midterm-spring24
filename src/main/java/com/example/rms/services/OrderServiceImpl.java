@@ -30,4 +30,9 @@ public class OrderServiceImpl implements OrderService{
             orderMapper.orderToOrderDto(orderRepository.findById(id).orElse(null))
         );
     }
+
+    @Override
+    public OrderDto saveOrder(OrderDto newOrder) {
+        return orderMapper.orderToOrderDto(orderRepository.save(orderMapper.orderDtoToOrder(newOrder)));
+    }
 }
