@@ -16,10 +16,10 @@ public class Customer {
     private Long id;
     private String customer;
 
-    @OneToMany(mappedBy = "customer", targetEntity = Order.class)
+    @OneToMany(mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.REMOVE)
     private Set<Order> orders;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Tables table;
     
     @Override

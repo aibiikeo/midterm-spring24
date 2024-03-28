@@ -10,4 +10,5 @@ public interface MenuService {
     MenuDto saveMenuItem(MenuDto newMenuItem);
     MenuDto putMenuItem(MenuDto putMenuItem);
     MenuDto patchMenuItem(MenuDto patchMenuItem);
+    void deleteMenuItem(Long id);
 }

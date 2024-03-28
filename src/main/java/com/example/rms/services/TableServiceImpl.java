@@ -65,4 +65,9 @@ public class TableServiceImpl implements TableService{
         return tablesMapper.tableToTableDto(updated);
     }
 
+    @Override
+    public void deleteTable(Long id) {
+        tablesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Table not found"));
+        tablesRepository.deleteById(id);
+    }
 }

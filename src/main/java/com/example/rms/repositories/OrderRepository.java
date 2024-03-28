@@ -9,4 +9,5 @@ import com.example.rms.entities.Order;
 public interface OrderRepository extends CrudRepository<Order, Long>{
     List<Order> findAll();
     List<Order> findByStatus(String status);
+    void deleteById(Long id);
 }

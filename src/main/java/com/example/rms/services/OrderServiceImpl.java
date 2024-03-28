@@ -55,15 +55,15 @@ public class OrderServiceImpl implements OrderService{
         if (patchOrder.getStatus() != null) {
             existing.setStatus(patchOrder.getStatus());
         }
-        if (patchOrder.getMenuItems() != null) {
-        }
-        if (patchOrder.getTable() != null) {
-        }
-        if (patchOrder.getCustomer() != null) {
-        }
 
         Order updated = orderRepository.save(existing);
         return orderMapper.orderToOrderDto(updated);
+    }
+
+    @Override
+    public void deleteOrder(Long id) {
+        orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found"));
+        orderRepository.deleteById(id);
     }
 
 }

@@ -65,10 +65,18 @@ public class MenuServiceImpl implements MenuService{
         if (patchMenuItem.getPrice() != null) {
             existing.setPrice(patchMenuItem.getPrice());
         }
-        if (patchMenuItem.getOrders() != null) {
-        }
 
         Menu updated = menuRepository.save(existing);
         return menuMapper.menuToMenuDto(updated);
     }
+
+    @Override
+    public void deleteMenuItem(Long id) {
+        Menu menuItemToDelete = menuRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Menu item not found"));
+
+        menuItemToDelete.getOrders().forEach(order -> order.setMenuItems(null));
+        menuRepository.deleteById(id);
+    }
+
 }

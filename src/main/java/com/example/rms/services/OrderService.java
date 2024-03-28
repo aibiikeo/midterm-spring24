@@ -10,4 +10,5 @@ public interface OrderService {
     OrderDto saveOrder(OrderDto newOrder);
     OrderDto putOrder(OrderDto putOrder);
     OrderDto patchOrder(OrderDto patchOrder);
+    void deleteOrder(Long id);
 }

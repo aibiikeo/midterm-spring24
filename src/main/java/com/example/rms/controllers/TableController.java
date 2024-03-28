@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,4 +74,9 @@ public class TableController {
         return ResponseEntity.ok(updatedTables);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        tableService.deleteTable(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -13,4 +13,5 @@ public interface TablesRepository extends CrudRepository<Tables, Long>{
     @Query("SELECT t FROM Tables t WHERE t.available = false")
     List<Tables> findByAvailableFalse();
     List<Tables> findBySeatNum(int seatNum);
+    void deleteById(Long id);
 }

@@ -15,4 +15,5 @@ public interface MenuRepository extends CrudRepository<Menu, Long>{
     List<Menu> findByPrice(String price);
     @Query("SELECT m.id, m.name, m.description, m.price, m.category FROM Menu m")
     List<Object[]> findAllMenuAttributes();
+    void deleteById(Long id);
 }

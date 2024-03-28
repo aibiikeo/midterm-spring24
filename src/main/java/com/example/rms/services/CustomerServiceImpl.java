@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
     private final CustomerMapper customerMapper;
     private final CustomerRepository customerRepository;
 
@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public Optional<CustomerDto> getCustomerById(Long id) {
         return Optional.ofNullable(
-            customerMapper.customerToCustomerDto(customerRepository.findById(id).orElse(null))
+                customerMapper.customerToCustomerDto(customerRepository.findById(id).orElse(null))
         );
     }
 
@@ -54,12 +54,18 @@ public class CustomerServiceImpl implements CustomerService{
         if (patchCustomer.getCustomer() != null) {
             existing.setCustomer(patchCustomer.getCustomer());
         }
-        if (patchCustomer.getOrders() != null) {
-        }
-        if (patchCustomer.getTable() != null) {
-        }
 
         Customer updated = customerRepository.save(existing);
         return customerMapper.customerToCustomerDto(updated);
     }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        Customer customerToDelete = customerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+
+        customerToDelete.getOrders().forEach(order -> order.setCustomer(null));
+        customerRepository.deleteById(id);
+    }
+
 }

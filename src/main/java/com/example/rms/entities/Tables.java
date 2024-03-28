@@ -18,10 +18,10 @@ public class Tables {
     @Builder.Default
     private boolean available = true;
 
-    @OneToOne(mappedBy = "table")
+    @OneToOne(mappedBy = "table", cascade = CascadeType.REMOVE)
     private Customer customer;
 
-    @OneToMany(mappedBy = "table", targetEntity = Order.class)
+    @OneToMany(mappedBy = "table", targetEntity = Order.class, cascade = CascadeType.REMOVE)
     private Set<Order> orders;
 
     @Override

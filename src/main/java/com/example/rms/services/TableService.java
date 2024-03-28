@@ -10,4 +10,5 @@ public interface TableService {
     TablesDto saveTable(TablesDto newTable);
     TablesDto putTable(TablesDto putTable);
     TablesDto patchTable(TablesDto patchTable);
+    void deleteTable(Long id);
 }
