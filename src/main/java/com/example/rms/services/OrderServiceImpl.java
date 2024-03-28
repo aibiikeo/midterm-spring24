@@ -46,4 +46,24 @@ public class OrderServiceImpl implements OrderService{
         Order updated = orderRepository.save(existing);
         return orderMapper.orderToOrderDto(updated);
     }
+
+    @Override
+    public OrderDto patchOrder(OrderDto patchOrder) {
+        Order existing = orderRepository.findById(patchOrder.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+
+        if (patchOrder.getStatus() != null) {
+            existing.setStatus(patchOrder.getStatus());
+        }
+        if (patchOrder.getMenuItems() != null) {
+        }
+        if (patchOrder.getTable() != null) {
+        }
+        if (patchOrder.getCustomer() != null) {
+        }
+
+        Order updated = orderRepository.save(existing);
+        return orderMapper.orderToOrderDto(updated);
+    }
+
 }

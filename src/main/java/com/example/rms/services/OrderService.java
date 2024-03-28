@@ -9,4 +9,5 @@ public interface OrderService {
     Optional<OrderDto> getOrderById(Long id);
     OrderDto saveOrder(OrderDto newOrder);
     OrderDto putOrder(OrderDto putOrder);
+    OrderDto patchOrder(OrderDto patchOrder);
 }

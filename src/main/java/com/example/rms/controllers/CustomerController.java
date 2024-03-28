@@ -2,9 +2,10 @@ package com.example.rms.controllers;
 
 import java.net.URI;
 import java.util.List;
-
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.rms.dto.CustomerDto;
 import com.example.rms.services.CustomerService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -45,6 +47,25 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> putCustomer(@PathVariable Long id, @RequestBody CustomerDto putCustomer) {
         putCustomer.setId(id);
         CustomerDto updated = customerService.putCustomer(putCustomer);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id, @RequestBody Map<String, Object> patchCustomer) {
+        CustomerDto existing = customerService.getCustomerById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+
+        patchCustomer.forEach((key, value) -> {
+            switch (key) {
+                case "customer":
+                    existing.setCustomer((String) value);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
+            }
+        });
+
+        CustomerDto updated = customerService.patchCustomer(existing);
         return ResponseEntity.ok(updated);
     }
 }

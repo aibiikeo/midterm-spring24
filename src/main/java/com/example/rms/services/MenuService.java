@@ -9,4 +9,5 @@ public interface MenuService {
     Optional<MenuDto> getMenuItemById(Long id);
     MenuDto saveMenuItem(MenuDto newMenuItem);
     MenuDto putMenuItem(MenuDto putMenuItem);
+    MenuDto patchMenuItem(MenuDto patchMenuItem);
 }

@@ -9,4 +9,5 @@ public interface CustomerService {
     Optional<CustomerDto> getCustomerById(Long id);
     CustomerDto saveCustomer(CustomerDto newCustomer);
     CustomerDto putCustomer(CustomerDto putCustomer);
+    CustomerDto patchCustomer(CustomerDto patchCustomer);
 }

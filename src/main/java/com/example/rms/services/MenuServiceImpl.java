@@ -47,4 +47,28 @@ public class MenuServiceImpl implements MenuService{
         Menu updated = menuRepository.save(existing);
         return menuMapper.menuToMenuDto(updated);
     }
+
+    @Override
+    public MenuDto patchMenuItem(MenuDto patchMenuItem) {
+        Menu existing = menuRepository.findById(patchMenuItem.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Menu item not found"));
+
+        if (patchMenuItem.getName() != null) {
+            existing.setName(patchMenuItem.getName());
+        }
+        if (patchMenuItem.getDescription() != null) {
+            existing.setDescription(patchMenuItem.getDescription());
+        }
+        if (patchMenuItem.getCategory() != null) {
+            existing.setCategory(patchMenuItem.getCategory());
+        }
+        if (patchMenuItem.getPrice() != null) {
+            existing.setPrice(patchMenuItem.getPrice());
+        }
+        if (patchMenuItem.getOrders() != null) {
+        }
+
+        Menu updated = menuRepository.save(existing);
+        return menuMapper.menuToMenuDto(updated);
+    }
 }

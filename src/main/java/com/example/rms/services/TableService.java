@@ -9,4 +9,5 @@ public interface TableService {
     Optional<TablesDto> getTableById(Long id);
     TablesDto saveTable(TablesDto newTable);
     TablesDto putTable(TablesDto putTable);
+    TablesDto patchTable(TablesDto patchTable);
 }

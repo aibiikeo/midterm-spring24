@@ -45,4 +45,24 @@ public class TableServiceImpl implements TableService{
         Tables updated = tablesRepository.save(existing);
         return tablesMapper.tableToTableDto(updated);
     }
+
+    @Override
+    public TablesDto patchTable(TablesDto patchTable) {
+        Tables existing = tablesRepository.findById(patchTable.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Tables not found"));
+
+        if (patchTable.getSeatNum() != -1) {
+            existing.setSeatNum(patchTable.getSeatNum());
+        }
+        if (Boolean.TRUE.equals(patchTable.isAvailable())) {
+            existing.setAvailable(true);
+        }
+        if (Boolean.FALSE.equals(patchTable.isAvailable())) {
+            existing.setAvailable(false);
+        }
+
+        Tables updated = tablesRepository.save(existing);
+        return tablesMapper.tableToTableDto(updated);
+    }
+
 }
