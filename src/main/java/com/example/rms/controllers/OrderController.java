@@ -33,11 +33,12 @@ public class OrderController {
     
     @GetMapping("{id}")
     public OrderDto getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id).orElseThrow();
+        return orderService.getOrderById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> newOrder(@RequestBody OrderDto newOrder) {
+    public ResponseEntity<OrderDto> postOrder(@RequestBody OrderDto newOrder) {
         newOrder.setId(null);
         OrderDto saved = orderService.saveOrder(newOrder);
         return ResponseEntity
