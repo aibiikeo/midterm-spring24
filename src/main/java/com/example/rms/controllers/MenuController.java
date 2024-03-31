@@ -33,11 +33,12 @@ public class MenuController {
     
     @GetMapping("{id}")
     public MenuDto getMenuItemById(@PathVariable Long id) {
-        return menuService.getMenuItemById(id).orElseThrow();
+        return menuService.getMenuItemById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Menu item not found with id: " + id));
     }
 
     @PostMapping
-    public ResponseEntity<MenuDto> newMenuItem(@RequestBody MenuDto newMenuItem) {
+    public ResponseEntity<MenuDto> postMenuItem(@RequestBody MenuDto newMenuItem) {
         newMenuItem.setId(null);
         MenuDto saved = menuService.saveMenuItem(newMenuItem);
         return ResponseEntity
