@@ -33,11 +33,12 @@ public class TableController {
     
     @GetMapping("{id}")
     public TablesDto getTableById(@PathVariable Long id) {
-        return tableService.getTableById(id).orElseThrow();
+        return tableService.getTableById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Table not found with id: " + id));
     }
 
     @PostMapping
-    public ResponseEntity<TablesDto> newTable(@RequestBody TablesDto newTable) {
+    public ResponseEntity<TablesDto> postTable(@RequestBody TablesDto newTable) {
         newTable.setId(null);
         TablesDto saved = tableService.saveTable(newTable);
         return ResponseEntity
