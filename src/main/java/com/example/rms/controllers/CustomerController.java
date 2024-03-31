@@ -25,23 +25,23 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class CustomerController {
     private final CustomerService customerService;
 
-    @GetMapping  
+    @GetMapping
     public List<CustomerDto> getAllCustomers(){
         return customerService.getAllCustomers();
     }
 
     @GetMapping("{id}")
     public CustomerDto getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id).orElseThrow();
+        return customerService.getCustomerById(id).orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
     }
-    
+
     @PostMapping
-    public ResponseEntity<CustomerDto> newCustomer(@RequestBody CustomerDto newCustomer) {
+    public ResponseEntity<CustomerDto> postCustomer(@RequestBody CustomerDto newCustomer) {
         newCustomer.setId(null);
         CustomerDto saved = customerService.saveCustomer(newCustomer);
         return ResponseEntity
                 .created(URI.create("/api/v1/customer/" + saved.getId()))
-                .body(saved);  
+                .body(saved);
     }
 
     @PutMapping("{id}")
@@ -54,7 +54,7 @@ public class CustomerController {
     @PatchMapping("{id}")
     public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id, @RequestBody Map<String, Object> patchCustomer) {
         CustomerDto existing = customerService.getCustomerById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
 
         patchCustomer.forEach((key, value) -> {
             switch (key) {
