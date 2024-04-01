@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,12 +32,12 @@ public class CustomerController {
     }
 
     @GetMapping("{id}")
-    public CustomerDto getCustomerById(@PathVariable Long id) {
+    public CustomerDto getCustomerById(@Validated @PathVariable Long id) {
         return customerService.getCustomerById(id).orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDto> postCustomer(@RequestBody CustomerDto newCustomer) {
+    public ResponseEntity<CustomerDto> postCustomer(@Validated @RequestBody CustomerDto newCustomer) {
         newCustomer.setId(null);
         CustomerDto saved = customerService.saveCustomer(newCustomer);
         return ResponseEntity
@@ -45,14 +46,14 @@ public class CustomerController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<CustomerDto> putCustomer(@PathVariable Long id, @RequestBody CustomerDto putCustomer) {
+    public ResponseEntity<CustomerDto> putCustomer(@PathVariable Long id,@Validated @RequestBody CustomerDto putCustomer) {
         putCustomer.setId(id);
         CustomerDto updated = customerService.putCustomer(putCustomer);
         return ResponseEntity.ok(updated);
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id, @RequestBody Map<String, Object> patchCustomer) {
+    public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchCustomer) {
         CustomerDto existing = customerService.getCustomerById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
 
@@ -71,7 +72,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCustomer(@Validated @PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,13 +33,13 @@ public class MenuController {
     }
     
     @GetMapping("{id}")
-    public MenuDto getMenuItemById(@PathVariable Long id) {
+    public MenuDto getMenuItemById(@Validated @PathVariable Long id) {
         return menuService.getMenuItemById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Menu item not found with id: " + id));
     }
 
     @PostMapping
-    public ResponseEntity<MenuDto> postMenuItem(@RequestBody MenuDto newMenuItem) {
+    public ResponseEntity<MenuDto> postMenuItem(@Validated @RequestBody MenuDto newMenuItem) {
         newMenuItem.setId(null);
         MenuDto saved = menuService.saveMenuItem(newMenuItem);
         return ResponseEntity
@@ -47,14 +48,14 @@ public class MenuController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<MenuDto> putMenuItem(@PathVariable Long id, @RequestBody MenuDto putMenuItem) {
+    public ResponseEntity<MenuDto> putMenuItem(@PathVariable Long id,@Validated @RequestBody MenuDto putMenuItem) {
         putMenuItem.setId(id);
         MenuDto updated = menuService.putMenuItem(putMenuItem);
         return ResponseEntity.ok(updated);
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<MenuDto> patchMenuItem(@PathVariable Long id, @RequestBody Map<String, Object> patchMenuItem) {
+    public ResponseEntity<MenuDto> patchMenuItem(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchMenuItem) {
         MenuDto existing = menuService.getMenuItemById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Menu not found"));
 
@@ -84,7 +85,7 @@ public class MenuController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteMenuItem(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMenuItem(@Validated @PathVariable Long id) {
         menuService.deleteMenuItem(id);
         return ResponseEntity.noContent().build();
     }

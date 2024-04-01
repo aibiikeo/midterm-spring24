@@ -3,6 +3,7 @@ package com.example.rms.entities;
 import java.util.Objects;
 import java.util.Set;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -13,9 +14,13 @@ import lombok.*;
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;    
+    private Long id;
+    @NotBlank
+    @Column(nullable = false)
     private String name;
     private String description;
+    @NotBlank
+    @Column(nullable = false)
     private String price;
     private String category;
     

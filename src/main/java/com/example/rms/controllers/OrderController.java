@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,13 +33,13 @@ public class OrderController {
     }
     
     @GetMapping("{id}")
-    public OrderDto getOrderById(@PathVariable Long id) {
+    public OrderDto getOrderById(@Validated @PathVariable Long id) {
         return orderService.getOrderById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> postOrder(@RequestBody OrderDto newOrder) {
+    public ResponseEntity<OrderDto> postOrder(@Validated @RequestBody OrderDto newOrder) {
         newOrder.setId(null);
         OrderDto saved = orderService.saveOrder(newOrder);
         return ResponseEntity
@@ -47,14 +48,14 @@ public class OrderController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<OrderDto> putOrder(@PathVariable Long id, @RequestBody OrderDto putOrder) {
+    public ResponseEntity<OrderDto> putOrder(@PathVariable Long id,@Validated @RequestBody OrderDto putOrder) {
         putOrder.setId(id);
         OrderDto updated = orderService.putOrder(putOrder);
         return ResponseEntity.ok(updated);
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<OrderDto> patchOrder(@PathVariable Long id, @RequestBody Map<String, Object> patchOrder) {
+    public ResponseEntity<OrderDto> patchOrder(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchOrder) {
         OrderDto existing = orderService.getOrderById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found"));
 
@@ -73,7 +74,7 @@ public class OrderController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOrder(@Validated @PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }

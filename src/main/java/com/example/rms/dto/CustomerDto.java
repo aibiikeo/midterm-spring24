@@ -1,8 +1,9 @@
 package com.example.rms.dto;
 
 import java.util.Set;
+
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -11,8 +12,8 @@ import lombok.*;
 @Builder
 public class CustomerDto {
     private Long id;
-    @NotNull
     @NotBlank
+    @Column(nullable = false)
     private String customer;
     private Set<OrderDto> orders;
     private TablesDto table;

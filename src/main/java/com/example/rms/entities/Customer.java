@@ -3,6 +3,7 @@ package com.example.rms.entities;
 import java.util.Objects;
 import java.util.Set;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -14,6 +15,8 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank
+    @Column(nullable = false)
     private String customer;
 
     @OneToMany(mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.REMOVE)

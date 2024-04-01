@@ -3,6 +3,7 @@ package com.example.rms.entities;
 import java.util.Objects;
 import java.util.Set;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -14,6 +15,8 @@ public class Tables {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    @Column(nullable = false)
     private int seatNum;
     @Builder.Default
     private boolean available = true;

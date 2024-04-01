@@ -1,7 +1,8 @@
 package com.example.rms.dto;
 
 import java.util.Set;
-import jakarta.validation.constraints.NotBlank;
+
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import lombok.*;
 public class TablesDto {
     private Long id;
     @NotNull
-    @NotBlank
+    @Column(nullable = false)
     private int seatNum;
     @Builder.Default
     private boolean available = true;

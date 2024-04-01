@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,13 +33,13 @@ public class TableController {
     }
     
     @GetMapping("{id}")
-    public TablesDto getTableById(@PathVariable Long id) {
+    public TablesDto getTableById(@Validated @PathVariable Long id) {
         return tableService.getTableById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Table not found with id: " + id));
     }
 
     @PostMapping
-    public ResponseEntity<TablesDto> postTable(@RequestBody TablesDto newTable) {
+    public ResponseEntity<TablesDto> postTable(@Validated @RequestBody TablesDto newTable) {
         newTable.setId(null);
         TablesDto saved = tableService.saveTable(newTable);
         return ResponseEntity
@@ -47,14 +48,14 @@ public class TableController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<TablesDto> putTable(@PathVariable Long id, @RequestBody TablesDto putTable) {
+    public ResponseEntity<TablesDto> putTable(@PathVariable Long id,@Validated @RequestBody TablesDto putTable) {
         putTable.setId(id);
         TablesDto updated = tableService.putTable(putTable);
         return ResponseEntity.ok(updated);
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<TablesDto> patchTable(@PathVariable Long id, @RequestBody Map<String, Object> patchTable) {
+    public ResponseEntity<TablesDto> patchTable(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchTable) {
         TablesDto existingTablesDto = tableService.getTableById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Tables not found"));
 
@@ -76,7 +77,7 @@ public class TableController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCustomer(@Validated @PathVariable Long id) {
         tableService.deleteTable(id);
         return ResponseEntity.noContent().build();
     }

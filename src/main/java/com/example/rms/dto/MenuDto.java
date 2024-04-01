@@ -1,8 +1,9 @@
 package com.example.rms.dto;
 
 import java.util.Set;
+
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -10,11 +11,13 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class MenuDto {
-    private Long id; 
-    @NotNull
-    @NotBlank   
+    private Long id;
+    @NotBlank
+    @Column(nullable = false)
     private String name;
     private String description;
+    @NotBlank
+    @Column(nullable = false)
     private String price;
     private String category;
     private Set<OrderDto> orders;
