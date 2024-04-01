@@ -34,8 +34,7 @@ public class TableController {
     
     @GetMapping("{id}")
     public TablesDto getTableById(@Validated @PathVariable Long id) {
-        return tableService.getTableById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Table not found with id: " + id));
+        return tableService.getTableById(id).orElseThrow(() -> new NotFoundException(String.format("Table with id:%d is not found", id)));
     }
 
     @PostMapping

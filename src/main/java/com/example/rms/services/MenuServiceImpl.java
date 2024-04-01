@@ -2,6 +2,8 @@ package com.example.rms.services;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.example.rms.controllers.NotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.MenuDto;
 import com.example.rms.entities.Menu;
@@ -73,7 +75,7 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public void deleteMenuItem(Long id) {
         Menu menuItemToDelete = menuRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Menu item not found"));
+                .orElseThrow(() -> new NotFoundException(String.format("Menu item with id:%d is not found", id)));
 
         menuItemToDelete.getOrders().forEach(order -> order.setMenuItems(null));
         menuRepository.deleteById(id);

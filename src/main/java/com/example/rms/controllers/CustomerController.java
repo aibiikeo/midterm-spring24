@@ -33,7 +33,8 @@ public class CustomerController {
 
     @GetMapping("{id}")
     public CustomerDto getCustomerById(@Validated @PathVariable Long id) {
-        return customerService.getCustomerById(id).orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+        return customerService.getCustomerById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Customer with id:%d is not found", id)));
     }
 
     @PostMapping

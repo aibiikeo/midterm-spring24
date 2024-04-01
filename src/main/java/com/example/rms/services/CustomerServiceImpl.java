@@ -2,6 +2,8 @@ package com.example.rms.services;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.example.rms.controllers.NotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.CustomerDto;
 import com.example.rms.entities.Customer;
@@ -62,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomer(Long id) {
         Customer customerToDelete = customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+                .orElseThrow(() -> new NotFoundException(String.format("Customer with id:%d is not found", id)));
 
         customerToDelete.getOrders().forEach(order -> order.setCustomer(null));
         customerRepository.deleteById(id);

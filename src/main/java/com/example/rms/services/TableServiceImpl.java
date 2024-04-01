@@ -2,6 +2,8 @@ package com.example.rms.services;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.example.rms.controllers.NotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.TablesDto;
 import com.example.rms.entities.Tables;
@@ -67,7 +69,7 @@ public class TableServiceImpl implements TableService{
 
     @Override
     public void deleteTable(Long id) {
-        tablesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Table not found"));
+        tablesRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Table with id:%d is not found", id)));
         tablesRepository.deleteById(id);
     }
 }

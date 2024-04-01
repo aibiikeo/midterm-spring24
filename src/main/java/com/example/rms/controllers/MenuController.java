@@ -34,8 +34,7 @@ public class MenuController {
     
     @GetMapping("{id}")
     public MenuDto getMenuItemById(@Validated @PathVariable Long id) {
-        return menuService.getMenuItemById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Menu item not found with id: " + id));
+        return menuService.getMenuItemById(id).orElseThrow(() -> new NotFoundException(String.format("Menu item with id:%d is not found", id)));
     }
 
     @PostMapping

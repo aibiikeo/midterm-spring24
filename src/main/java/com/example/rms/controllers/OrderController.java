@@ -34,8 +34,7 @@ public class OrderController {
     
     @GetMapping("{id}")
     public OrderDto getOrderById(@Validated @PathVariable Long id) {
-        return orderService.getOrderById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
+        return orderService.getOrderById(id).orElseThrow(() -> new NotFoundException(String.format("Order with id:%d is not found", id)));
     }
 
     @PostMapping

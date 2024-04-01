@@ -3,6 +3,7 @@ package com.example.rms.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.rms.controllers.NotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.OrderDto;
 import com.example.rms.entities.Order;
@@ -62,7 +63,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void deleteOrder(Long id) {
-        orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found"));
+        orderRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Order with id:%d is not found", id)));
         orderRepository.deleteById(id);
     }
 
