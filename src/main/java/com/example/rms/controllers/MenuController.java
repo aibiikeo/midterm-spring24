@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.rms.dto.MenuDto;
 import com.example.rms.services.MenuService;
-
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -56,7 +54,7 @@ public class MenuController {
     @PatchMapping("{id}")
     public ResponseEntity<MenuDto> patchMenuItem(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchMenuItem) {
         MenuDto existing = menuService.getMenuItemById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+                .orElseThrow(() -> new NotFoundException(String.format("Menu item with id:%d is not found", id)));
 
         patchMenuItem.forEach((key, value) -> {
             switch (key) {

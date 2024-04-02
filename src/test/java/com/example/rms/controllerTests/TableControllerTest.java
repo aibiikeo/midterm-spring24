@@ -124,4 +124,11 @@ public class TableControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
+
+    @Test
+    public void getByIdTest() throws Exception {
+        mockMvc.perform(get("/api/v1/table/76"))
+                .andExpect(status().isNotFound());
+    }
 }

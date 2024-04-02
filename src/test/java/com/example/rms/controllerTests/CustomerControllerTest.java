@@ -3,6 +3,7 @@ package com.example.rms.controllerTests;
 import com.example.rms.controllers.CustomerController;
 import com.example.rms.dto.CustomerDto;
 import com.example.rms.services.CustomerService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -117,5 +118,35 @@ class CustomerControllerTest {
         mockMvc.perform(delete("/api/v1/customer/{id}", customerId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void getByIdTest() throws Exception {
+        mockMvc.perform(get("/api/v1/customer/76"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void postTest() throws Exception {
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setCustomer("");
+        mockMvc.perform(post("/api/v1/customer/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void putTest() throws Exception {
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setCustomer("");
+        mockMvc.perform(put("/api/v1/customer/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerDto)))
+                .andExpect(status().isBadRequest());
     }
 }

@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.rms.dto.TablesDto;
 import com.example.rms.services.TableService;
-
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -56,7 +54,7 @@ public class TableController {
     @PatchMapping("{id}")
     public ResponseEntity<TablesDto> patchTable(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchTable) {
         TablesDto existingTablesDto = tableService.getTableById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tables not found"));
+                .orElseThrow(() -> new NotFoundException(String.format("Table with id:%d is not found", id)));
 
         patchTable.forEach((key, value) -> {
             switch (key) {

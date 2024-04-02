@@ -3,6 +3,7 @@ package com.example.rms.controllerTests;
 import com.example.rms.controllers.OrderController;
 import com.example.rms.dto.OrderDto;
 import com.example.rms.services.OrderService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -120,5 +121,35 @@ public class OrderControllerTest {
         mockMvc.perform(delete("/api/v1/order/{id}", orderId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void getByIdTest() throws Exception {
+        mockMvc.perform(get("/api/v1/order/76"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void postTest() throws Exception {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setStatus("");
+        mockMvc.perform(post("/api/v1/order/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void putTest() throws Exception {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setStatus("");
+        mockMvc.perform(put("/api/v1/order/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderDto)))
+                .andExpect(status().isBadRequest());
     }
 }

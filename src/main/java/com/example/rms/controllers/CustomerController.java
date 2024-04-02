@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.rms.dto.CustomerDto;
 import com.example.rms.services.CustomerService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -56,7 +55,7 @@ public class CustomerController {
     @PatchMapping("{id}")
     public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchCustomer) {
         CustomerDto existing = customerService.getCustomerById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+                .orElseThrow(() -> new NotFoundException(String.format("Customer with id:%d is not found", id)));
 
         patchCustomer.forEach((key, value) -> {
             switch (key) {

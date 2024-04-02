@@ -3,6 +3,7 @@ package com.example.rms.controllerTests;
 import com.example.rms.controllers.MenuController;
 import com.example.rms.dto.MenuDto;
 import com.example.rms.services.MenuService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -133,5 +134,35 @@ public class MenuControllerTest {
         mockMvc.perform(delete("/api/v1/menu/{id}", menuItemId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void getByIdTest() throws Exception {
+        mockMvc.perform(get("/api/v1/menu/76"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void postTest() throws Exception {
+        MenuDto menuDto = new MenuDto();
+        menuDto.setName("");
+        mockMvc.perform(post("/api/v1/menu/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(menuDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void putTest() throws Exception {
+        MenuDto menuDto = new MenuDto();
+        menuDto.setName("");
+        mockMvc.perform(put("/api/v1/menu/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(menuDto)))
+                .andExpect(status().isBadRequest());
     }
 }

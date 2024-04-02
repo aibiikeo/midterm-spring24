@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.rms.dto.OrderDto;
 import com.example.rms.services.OrderService;
-
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -56,7 +54,7 @@ public class OrderController {
     @PatchMapping("{id}")
     public ResponseEntity<OrderDto> patchOrder(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchOrder) {
         OrderDto existing = orderService.getOrderById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+                .orElseThrow(() -> new NotFoundException(String.format("Order with id:%d is not found", id)));
 
         patchOrder.forEach((key, value) -> {
             switch (key) {
