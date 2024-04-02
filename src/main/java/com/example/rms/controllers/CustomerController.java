@@ -2,7 +2,6 @@ package com.example.rms.controllers;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,20 +51,33 @@ public class CustomerController {
         return ResponseEntity.ok(updated);
     }
 
+//    @PatchMapping("{id}")
+//    public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchCustomer) {
+//        CustomerDto existing = customerService.getCustomerById(id)
+//                .orElseThrow(() -> new NotFoundException(String.format("Customer with id:%d is not found", id)));
+//
+//        patchCustomer.forEach((key, value) -> {
+//            switch (key) {
+//                case "customer":
+//                    existing.setCustomer((String) value);
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
+//            }
+//        });
+//
+//        CustomerDto updated = customerService.patchCustomer(existing);
+//        return ResponseEntity.ok(updated);
+//    }
+
     @PatchMapping("{id}")
-    public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchCustomer) {
+    public ResponseEntity<CustomerDto> patchCustomer(@PathVariable Long id, @Validated @RequestBody CustomerDto patchCustomer) {
         CustomerDto existing = customerService.getCustomerById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer with id:%d is not found", id)));
 
-        patchCustomer.forEach((key, value) -> {
-            switch (key) {
-                case "customer":
-                    existing.setCustomer((String) value);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
-            }
-        });
+        if (patchCustomer.getCustomer() != null) {
+            existing.setCustomer(patchCustomer.getCustomer());
+        }
 
         CustomerDto updated = customerService.patchCustomer(existing);
         return ResponseEntity.ok(updated);
@@ -76,5 +88,6 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
+
 
 }	

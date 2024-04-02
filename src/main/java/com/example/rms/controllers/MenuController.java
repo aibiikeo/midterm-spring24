@@ -2,8 +2,6 @@ package com.example.rms.controllers;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,35 +49,58 @@ public class MenuController {
         return ResponseEntity.ok(updated);
     }
 
+//    @PatchMapping("{id}")
+//    public ResponseEntity<MenuDto> patchMenuItem(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchMenuItem) {
+//        MenuDto existing = menuService.getMenuItemById(id)
+//                .orElseThrow(() -> new NotFoundException(String.format("Menu item with id:%d is not found", id)));
+//
+//        patchMenuItem.forEach((key, value) -> {
+//            switch (key) {
+//                case "name":
+//                    existing.setName((String) value);
+//                    break;
+//                case "description":
+//                    existing.setDescription((String) value);
+//                    break;
+//                case "price":
+//                    existing.setPrice((String) value);
+//                    break;
+//                case "category":
+//                    existing.setCategory((String) value);
+//                    break;
+//                case "orders":
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
+//            }
+//        });
+//
+//        MenuDto updated = menuService.patchMenuItem(existing);
+//        return ResponseEntity.ok(updated);
+//    }
+
     @PatchMapping("{id}")
-    public ResponseEntity<MenuDto> patchMenuItem(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchMenuItem) {
+    public ResponseEntity<MenuDto> patchMenuItem(@PathVariable Long id, @Validated @RequestBody MenuDto patchMenuItem) {
         MenuDto existing = menuService.getMenuItemById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Menu item with id:%d is not found", id)));
 
-        patchMenuItem.forEach((key, value) -> {
-            switch (key) {
-                case "name":
-                    existing.setName((String) value);
-                    break;
-                case "description":
-                    existing.setDescription((String) value);
-                    break;
-                case "price":
-                    existing.setPrice((String) value);
-                    break;
-                case "category":
-                    existing.setCategory((String) value);
-                    break;
-                case "orders":
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
-            }
-        });
+        if (patchMenuItem.getName() != null) {
+            existing.setName(patchMenuItem.getName());
+        }
+        if (patchMenuItem.getDescription() != null) {
+            existing.setDescription(patchMenuItem.getDescription());
+        }
+        if (patchMenuItem.getPrice() != null) {
+            existing.setPrice(patchMenuItem.getPrice());
+        }
+        if (patchMenuItem.getCategory() != null) {
+            existing.setCategory(patchMenuItem.getCategory());
+        }
 
         MenuDto updated = menuService.patchMenuItem(existing);
         return ResponseEntity.ok(updated);
     }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteMenuItem(@Validated @PathVariable Long id) {

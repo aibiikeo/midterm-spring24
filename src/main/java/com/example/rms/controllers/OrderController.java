@@ -2,8 +2,6 @@ package com.example.rms.controllers;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,24 +49,38 @@ public class OrderController {
         return ResponseEntity.ok(updated);
     }
 
+//    @PatchMapping("{id}")
+//    public ResponseEntity<OrderDto> patchOrder(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchOrder) {
+//        OrderDto existing = orderService.getOrderById(id)
+//                .orElseThrow(() -> new NotFoundException(String.format("Order with id:%d is not found", id)));
+//
+//        patchOrder.forEach((key, value) -> {
+//            switch (key) {
+//                case "status":
+//                    existing.setStatus((String) value);
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
+//            }
+//        });
+//
+//        OrderDto updated = orderService.patchOrder(existing);
+//        return ResponseEntity.ok(updated);
+//    }
+
     @PatchMapping("{id}")
-    public ResponseEntity<OrderDto> patchOrder(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchOrder) {
+    public ResponseEntity<OrderDto> patchOrder(@PathVariable Long id, @Validated @RequestBody OrderDto patchOrder) {
         OrderDto existing = orderService.getOrderById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Order with id:%d is not found", id)));
 
-        patchOrder.forEach((key, value) -> {
-            switch (key) {
-                case "status":
-                    existing.setStatus((String) value);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
-            }
-        });
+        if (patchOrder.getStatus() != null) {
+            existing.setStatus(patchOrder.getStatus());
+        }
 
         OrderDto updated = orderService.patchOrder(existing);
         return ResponseEntity.ok(updated);
     }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteOrder(@Validated @PathVariable Long id) {

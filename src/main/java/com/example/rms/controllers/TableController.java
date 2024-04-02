@@ -2,8 +2,6 @@ package com.example.rms.controllers;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,27 +49,40 @@ public class TableController {
         return ResponseEntity.ok(updated);
     }
 
+//    @PatchMapping("{id}")
+//    public ResponseEntity<TablesDto> patchTable(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchTable) {
+//        TablesDto existing = tableService.getTableById(id)
+//                .orElseThrow(() -> new NotFoundException(String.format("Table with id:%d is not found", id)));
+//
+//        patchTable.forEach((key, value) -> {
+//            switch (key) {
+//                case "seatNum":
+//                    existing.setSeatNum((int) value);
+//                    break;
+//                case "available":
+//                    existing.setAvailable((boolean) value);
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
+//            }
+//        });
+//
+//        TablesDto updatedTables = tableService.patchTable(existing);
+//        return ResponseEntity.ok(updatedTables);
+//    }
+
     @PatchMapping("{id}")
-    public ResponseEntity<TablesDto> patchTable(@PathVariable Long id,@Validated @RequestBody Map<String, Object> patchTable) {
-        TablesDto existingTablesDto = tableService.getTableById(id)
+    public ResponseEntity<TablesDto> patchTable(@PathVariable Long id, @Validated @RequestBody TablesDto patchTable) {
+        TablesDto existing = tableService.getTableById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Table with id:%d is not found", id)));
 
-        patchTable.forEach((key, value) -> {
-            switch (key) {
-                case "seatNum":
-                    existingTablesDto.setSeatNum((int) value);
-                    break;
-                case "available":
-                    existingTablesDto.setAvailable((boolean) value);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid field in patch request: " + key);
-            }
-        });
+        existing.setSeatNum(patchTable.getSeatNum());
+        existing.setAvailable(patchTable.isAvailable());
 
-        TablesDto updatedTables = tableService.patchTable(existingTablesDto);
+        TablesDto updatedTables = tableService.patchTable(existing);
         return ResponseEntity.ok(updatedTables);
     }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteCustomer(@Validated @PathVariable Long id) {
