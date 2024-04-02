@@ -4,6 +4,8 @@ The Restaurant Management System is a web-based application developed using the 
 
 [SRS for RMS](https://docs.google.com/document/d/1IuFtZtVcy26yIrleHhfSdplMBcrVOpLyGAysXJ7LO4w/edit?usp=sharing)
 
+[Video-presentation](rms_video.mp4)
+
 ## System Description
 
 The restaurant management system API is a web service used by a restaurant application to manage its core operations. The API is exposed through RESTful endpoints and is accessible over HTTP.
