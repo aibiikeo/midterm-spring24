@@ -18,7 +18,7 @@ class CustomerMapperTest {
     void customerToCustomerDto(){
         Customer customer = Customer.builder()
                 .id(2L)
-                .customer("Lena")
+                .username("Lena")
                 .build();  
         CustomerDto dto = customerMapper.customerToCustomerDto(customer);
         assertNotNull(dto);
@@ -36,6 +36,6 @@ class CustomerMapperTest {
         Customer customer = customerMapper.customerDtoToCustomer(dto);
         assertNotNull(customer);
         assertEquals(2L,customer.getId());
-        assertEquals("Lena", customer.getCustomer());
+        assertEquals("Lena", customer.getUsername());
     }
 }

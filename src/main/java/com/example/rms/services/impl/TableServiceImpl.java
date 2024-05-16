@@ -1,9 +1,10 @@
-package com.example.rms.services;
+package com.example.rms.services.impl;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.example.rms.controllers.NotFoundException;
+import com.example.rms.services.TableService;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.TablesDto;
 import com.example.rms.entities.Tables;
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TableServiceImpl implements TableService{
+public class TableServiceImpl implements TableService {
     private final TablesMapper tablesMapper;
     private final TablesRepository tablesRepository;
 

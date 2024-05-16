@@ -22,9 +22,9 @@ public class CustomerRepositoryTest {
 
     @Test
     void testFindByCustomer() {
-        List<Customer> customers = customerRepository.findByCustomer("Lena");
+        List<Customer> customers = customerRepository.findByUsername("Lena");
         assertNotNull(customers);
-        assertEquals("Lena", customers.get(0).getCustomer());
+        assertEquals("Lena", customers.get(0).getUsername());
         assertEquals(9, customers.get(0).getId());
     }
 }

@@ -9,6 +9,7 @@ import com.example.rms.entities.Customer;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long>{
     List<Customer> findAll();
-    List<Customer> findByCustomer(String customer);
+    List<Customer> findByUsername(String username);
     void deleteById(Long id);
 }
+

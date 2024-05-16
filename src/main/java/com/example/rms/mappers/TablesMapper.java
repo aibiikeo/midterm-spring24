@@ -46,7 +46,7 @@ public interface TablesMapper {
 
         CustomerDto.CustomerDtoBuilder customerDto = CustomerDto.builder();
 
-        customerDto.customer( customer.getCustomer() );
+        customerDto.customer( customer.getUsername() );
         customerDto.id( customer.getId() );
 
         return customerDto.build();
@@ -59,7 +59,7 @@ public interface TablesMapper {
 
         Customer.CustomerBuilder customer = Customer.builder();
 
-        customer.customer( customerDto.getCustomer() );
+        customer.username( customerDto.getCustomer() );
         customer.id( customerDto.getId() );
 
         return customer.build();

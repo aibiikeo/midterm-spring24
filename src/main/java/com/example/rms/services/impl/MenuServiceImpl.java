@@ -1,9 +1,10 @@
-package com.example.rms.services;
+package com.example.rms.services.impl;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.example.rms.controllers.NotFoundException;
+import com.example.rms.services.MenuService;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.MenuDto;
 import com.example.rms.entities.Menu;
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MenuServiceImpl implements MenuService{
+public class MenuServiceImpl implements MenuService {
     private final MenuMapper menuMapper;
     private final MenuRepository menuRepository;
     

@@ -9,12 +9,9 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
+import com.example.rms.entities.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import com.example.rms.entities.Menu;
-import com.example.rms.entities.Order;
-import com.example.rms.entities.Tables;
-import com.example.rms.entities.Customer;
 import com.example.rms.repositories.MenuRepository;
 import com.example.rms.repositories.OrderRepository;
 import com.example.rms.repositories.TablesRepository;
@@ -47,13 +44,13 @@ public class InitData implements CommandLineRunner{
                 .description("cake")
                 .price("12.4$")
                 .category("Dessert")
-                .build(); 
+                .build();
         Menu menu2 = Menu.builder()
                 .name("Water")
                 .description("water")
                 .price("0.5$")
                 .category("Drink")
-                .build();            
+                .build();
         menuRepository.saveAll(List.of(menu1, menu2));
         Set<Menu> menuItems = new HashSet<>();
         menuItems.add(menu1);
@@ -64,23 +61,26 @@ public class InitData implements CommandLineRunner{
                 .build();
         tableRepository.save(table);
         Customer customer = Customer.builder()
-                    .customer("Lena")
+                    .username("Lena")
+                    .email("lena@gmail.com")
+                    .password("Lena")
+                    .role(Role.customer)
                     .table(table)
-                    .build();    
+                    .build();
         customerRepository.save(customer);
         Order order = Order.builder()
                 .status("new")
                 .customer(customer)
                 .table(table)
                 .menuItems(menuItems)
-                .build();    
+                .build();
         orderRepository.save(order);
     }
-    
+
     Random random = new Random();
     public void generateMenuItems(int numberOfMenuItems) {
         String[] categories = {"Appetizer", "Main Course", "Dessert", "Beverage"};
-        
+
         for (int i = 1; i <= numberOfMenuItems; i++) {
             DecimalFormat df = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.US));
             Menu menu = Menu.builder()
@@ -88,12 +88,12 @@ public class InitData implements CommandLineRunner{
                     .description("Description for menu " + i)
                     .price(String.valueOf(Double.parseDouble(df.format(random.nextDouble() * 100))) + "$")
                     .category(categories[random.nextInt(categories.length)])
-                    .build();            
+                    .build();
             menuRepository.save(menu);
         }
     }
 
-    public void generateTables(int numberOfTables) { 
+    public void generateTables(int numberOfTables) {
         for (int i = 1; i <= numberOfTables; i++) {
             Tables table = Tables.builder()
                     .seatNum(random.nextInt(6) + 1)
@@ -102,14 +102,14 @@ public class InitData implements CommandLineRunner{
         }
     }
 
-    public void generateCustomers(int numberOfCustomers) { 
+    public void generateCustomers(int numberOfCustomers) {
         List<Tables> tables = (List<Tables>) tableRepository.findAll();
         if (tables.isEmpty()) {
             System.err.println("No tables found in the database");
             return;
         }
         Collections.shuffle(tables);
-        int tableIndex = 0;        
+        int tableIndex = 0;
         for (int i = 1; i <= numberOfCustomers; i++) {
             if (tableIndex >= tables.size()) {
                 System.err.println("No available tables found in the database");
@@ -119,9 +119,12 @@ public class InitData implements CommandLineRunner{
             randomTable.setAvailable(false);
             tableRepository.save(randomTable);
             Customer customer = Customer.builder()
-                    .customer("Customer" + i)
+                    .username("Customer" + i)
+                    .email("customer" + i + "@gmail.com")
+                    .password("customer" + i)
+                    .role(Role.customer)
                     .table(randomTable)
-                    .build();    
+                    .build();
             customerRepository.save(customer);
         }
     }
@@ -135,14 +138,14 @@ public class InitData implements CommandLineRunner{
             return;
         }
         Collections.shuffle(customers);
-    
+
         List<Tables> tables = (List<Tables>) tableRepository.findByAvailableFalse();
         if (tables.isEmpty()) {
             System.err.println("No tables found in the database");
             return;
         }
         Collections.shuffle(tables);
-    
+
         List<Object[]> menuItems = menuRepository.findAllMenuAttributes();
         if (menuItems.isEmpty()) {
             System.err.println("No menu items found in the database");

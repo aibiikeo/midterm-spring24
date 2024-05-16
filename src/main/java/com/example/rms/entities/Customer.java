@@ -1,33 +1,30 @@
 package com.example.rms.entities;
 
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.util.Objects;
 import java.util.Set;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @NotBlank
-    @Column(nullable = false)
-    private String customer;
+@SuperBuilder
+@Table(name = "customers")
+@PrimaryKeyJoinColumn(name = "user_id")
+public class Customer extends User {
 
     @OneToMany(mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.REMOVE)
     private Set<Order> orders;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     private Tables table;
-    
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, customer);
+        return Objects.hash(super.hashCode(), getUsername());
     }
 
     @Override
@@ -38,7 +35,11 @@ public class Customer {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
+        if (!super.equals(obj)) {
+            return false;
+        }
         Customer customer = (Customer) obj;
-        return Objects.equals(id, customer.id) && Objects.equals(this.customer, customer.customer);
+        return Objects.equals(getId(), customer.getId()) && Objects.equals(getUsername(), customer.getUsername());
     }
+
 }

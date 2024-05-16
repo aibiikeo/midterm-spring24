@@ -1,8 +1,9 @@
-package com.example.rms.services;
+package com.example.rms.services.impl;
 
 import java.util.List;
 import java.util.Optional;
 import com.example.rms.controllers.NotFoundException;
+import com.example.rms.services.CustomerService;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.CustomerDto;
 import com.example.rms.entities.Customer;
@@ -41,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto putCustomer(CustomerDto putCustomer) {
         Customer existing = customerRepository.findById(putCustomer.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
-        existing.setCustomer(putCustomer.getCustomer());
+        existing.setUsername(putCustomer.getCustomer());
 
         Customer updated = customerRepository.save(existing);
         return customerMapper.customerToCustomerDto(updated);
@@ -53,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
 
         if (patchCustomer.getCustomer() != null) {
-            existing.setCustomer(patchCustomer.getCustomer());
+            existing.setUsername(patchCustomer.getCustomer());
         }
 
         Customer updated = customerRepository.save(existing);

@@ -1,9 +1,10 @@
-package com.example.rms.services;
+package com.example.rms.services.impl;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.example.rms.controllers.NotFoundException;
+import com.example.rms.services.OrderService;
 import org.springframework.stereotype.Service;
 import com.example.rms.dto.OrderDto;
 import com.example.rms.entities.Order;
@@ -15,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
     
