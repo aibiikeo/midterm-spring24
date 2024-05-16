@@ -73,4 +73,19 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve access token.");
         }
     }
+
+    @GetMapping("api/v1/auth/signin/github")
+    public ResponseEntity<String> github(){
+        return ResponseEntity.ok("Signed in with Github");
+    }
+
+    @GetMapping("api/v1/auth/signin/google")
+    public ResponseEntity<String> google(){
+        return ResponseEntity.ok("Signed in with Google");
+    }
+
+    @GetMapping("api/v1/auth/signin/facebook")
+    public ResponseEntity<String> facebook(){
+        return ResponseEntity.ok("Signed in with Facebook");
+    }
 }
